@@ -1,7 +1,5 @@
 import express from 'express'
-import conexao from '../infra/conexao.js
-import mysql from 'mysql';
-
+import conexao from '../infra/conexao.js'
 
 const app = express()
 
@@ -16,7 +14,6 @@ function buscarSelecaoPorId(id) {
 function buscarIndexSelecao(id) {
     return selecoes.findIndex( selecao => selecao.id == id)
 }
-
 
 // Rotas
 app.get('/selecoes', (req, res) => {
