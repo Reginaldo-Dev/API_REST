@@ -1,7 +1,7 @@
 import express from 'express'
+import conexao from '../infra/conexao.js'
 
 const app = express()
-
 
 // indicar para o express ler body com json
 app.use(express.json())
@@ -15,21 +15,19 @@ function buscarIndexSelecao(id) {
     return selecoes.findIndex( selecao => selecao.id == id)
 }
 
-// mock == Termo utilizado para mokar dados
-const selecoes = [
-    {id: 1, selecao: 'Brasil', grupo: 'G'},
-    {id: 2, selecao: 'Suiça', grupo: 'G'},
-    {id: 3, selecao: 'Camarões', grupo: 'G'},
-    {id: 4, selecao: 'Sérvia', grupo: 'G'}
-];
-
-// crincdo rota padrão ou raiz
-app.get('/', (req, res) => {
-    res.send('Só os perseverantes alcançam os objetivos traçados')
-});
-
+// Rotas
 app.get('/selecoes', (req, res) => {
-    res.status(200).send(selecoes)
+  //  res.status(200).send(selecoes)
+  const sql = "SELECT * FROM selecoes;"
+  conexao.query(sql, (erro, resultado) => {
+    if(erro) {
+        
+        res.status(404).json({'erro': erro})
+
+    } else {
+        res.status(200).json(resultado)
+      }
+    })
 });
 
 app.get('/selecoes/:id', (req, res) => {
